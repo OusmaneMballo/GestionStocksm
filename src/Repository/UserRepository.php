@@ -47,4 +47,19 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    ///
+    /// Recuperation d'un user a partir de son login et password
+    /// lors d'une connexion
+    ///
+    public function findUserByloginPasswd($login, $passwd): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.login = :val and u.passwd= : val1')
+            ->setParameter('val', $login)
+            ->setParameter('val1', $passwd)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }
