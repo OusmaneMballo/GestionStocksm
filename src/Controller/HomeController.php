@@ -36,6 +36,14 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/home/login", name="app_home_login", methods={"POST|PATCH"})
+     */
+    public function login()
+    {
+        return $this->redirectToRoute('accueil');
+    }
+
+    /**
      * @Route("/home/create", name="app_home_create", methods={"POST|PATCH"})
      */
     public function create(Request $request)
