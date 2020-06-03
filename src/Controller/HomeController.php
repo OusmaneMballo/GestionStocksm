@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Controller;
-
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Env\Request;
+//use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-
+use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\HttpFoundation\Request;
 class HomeController extends AbstractController
 {
     private $emi;
@@ -17,7 +16,7 @@ class HomeController extends AbstractController
     public function __construct(EntityManagerInterface $em)
     {
         $this->emi=$em;
-        $this->repository=$em->getRepository(UserRepository::class);
+        $this->repository=$em->getRepository(User::class);
     }
 
     /**
@@ -37,7 +36,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/home/create", name="app_home_create" methods="{POST}")
+     * @Route("/home/create", name="app_home_create", methods={"POST|PATCH"})
      */
     public function create(Request $request)
     {
@@ -53,7 +52,7 @@ class HomeController extends AbstractController
                 $user->setPrenom($request->request->get('prenom'));
                 $this->emi->persist($user);
                 $this->emi->flush();
-                return $this->redirectToRoute('app_produit_home', ['user'=>$user]);
+                return $this->redirectToRoute('app_produit_index');
             }
         }
         return $this->rander('home/inscrir.html.twig');
