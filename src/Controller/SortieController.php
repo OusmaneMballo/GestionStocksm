@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/sortie", name="sortie")
+     * @Route("/Sortie/list", name="sortie_list")
      */
     public function index()
     {
-        return $this->render('sortie/index.html.twig', [
+        return $this->render('sortie/list.html.twig', [
             'controller_name' => 'SortieController',
         ]);
     }

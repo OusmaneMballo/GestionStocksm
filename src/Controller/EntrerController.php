@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class EntrerController extends AbstractController
 {
     /**
-     * @Route("/entrer", name="entrer")
+     * @Route("/Entrer/list", name="entrer_list")
      */
     public function index()
     {
-        return $this->render('entrer/index.html.twig', [
+        return $this->render('entrer/list.html.twig', [
             'controller_name' => 'EntrerController',
         ]);
     }
