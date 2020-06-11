@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Form\ProduitFormType;
 use \Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,11 @@ class ProduitController extends AbstractController
     public function index()
     {
         $em = $this->getDoctrine()->getManager();
+
+        $p = new Produit();
+        $form = $this->createForm(ProduitFormType::class, $p);
+        $data['form'] = $form->createView();
+
         $data['produits'] = $em->getRepository(Produit::class)->findAll();
 
         return $this->render('produit/list.html.twig',$data);
