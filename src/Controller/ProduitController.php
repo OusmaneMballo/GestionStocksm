@@ -24,9 +24,10 @@ class ProduitController extends AbstractController
      */
     public function index()
     {
-        return $this->render('produit/list.html.twig', [
-            'controller_name' => 'ProduitController',
-        ]);
+        $em = $this->getDoctrine()->getManager();
+        $data['produits'] = $em->getRepository(Produit::class)->findAll();
+
+        return $this->render('produit/list.html.twig',$data);
     }
 
 

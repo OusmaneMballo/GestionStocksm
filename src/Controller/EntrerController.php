@@ -12,6 +12,7 @@ class EntrerController extends AbstractController
      */
     public function index()
     {
+
         return $this->render('entrer/list.html.twig', [
             'controller_name' => 'EntrerController',
         ]);
