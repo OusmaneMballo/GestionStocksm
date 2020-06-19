@@ -52,6 +52,11 @@ class EntreeController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($e);
             $em->flush();
+            //Mise a jour de la quantite en stocke du produit
+            $p=$em->getRepository(Produit::class)->find($e->getProduit()->getId());
+            $p->setQtstocke($p->getQtstocke()+$e->getQtE());
+            $em->flush();
+
         }
         return $this->redirectToRoute('app_entree_index');
     }
