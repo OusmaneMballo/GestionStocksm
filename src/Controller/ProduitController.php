@@ -28,7 +28,7 @@ class ProduitController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $p = new Produit();
-        $form = $this->createForm(ProduitFormType::class, $p, array('action' => $this->generateUrl('app_produit_add')));
+        $form = $this->createForm(ProduitFormType::class, $p, array('action' => $this->generateUrl('app_entree_add')));
         $data['form'] = $form->createView();
 
         $data['produits'] = $em->getRepository(Produit::class)->findAll();

@@ -10,18 +10,26 @@
             <div class="card-body">
                 <table class="table table-striped">
                     <tr>
+                        <th>ID</th>
                         <th>Date</th>
                         <th>Produit</th>
                         <th>Quantite</th>
                     </tr>
-
+                    {% for e in entrees %}
+                        <tr>
+                            <td>{{ e.getId() }}</td>
+                            <td>{{ e.getEntrerAt()|date('d/m/y') }}</td>
+                            <td>{{ e.getProduit() }}</td>
+                            <td>{{ e.getQtE() }}</td>
+                        </tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>
         <div class="card col-md-6">
             <div class="card-header">Formulaire de gestion des entrees</div>
             <div class="card-body">
-
+                {{ form(form) }}
             </div>
         </div>
     </div>
