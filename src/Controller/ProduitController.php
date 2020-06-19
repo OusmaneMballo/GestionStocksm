@@ -28,7 +28,7 @@ class ProduitController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $p = new Produit();
-        $form = $this->createForm(ProduitFormType::class, $p);
+        $form = $this->createForm(ProduitFormType::class, $p, array('action' => $this->generateUrl('app_produit_add')));
         $data['form'] = $form->createView();
 
         $data['produits'] = $em->getRepository(Produit::class)->findAll();
@@ -38,15 +38,20 @@ class ProduitController extends AbstractController
 
 
     /**
-     * @Route("/produit/add", name="app_produit_add")
+     * @Route("/produit/add", name="app_produit_add", methods={"POST|PATCH"})
      */
-    public function add()
+    public function add(Request $request)
     {
         $p = new Produit();
-        $p->setLibelle("Clavier");
-        $p->setQtstocke(2);
-        $this->emi->persist($p);
-        $this->emi->flush();
-        return $this->redirectToRoute('accueil');
+        $form = $this->createForm(ProduitFormType::class, $p);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $p = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($p);
+            $em->flush();
+        }
+        return $this->redirectToRoute('app_produit_index');
     }
 }

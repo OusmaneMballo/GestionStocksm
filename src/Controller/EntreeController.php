@@ -5,13 +5,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SortieController extends AbstractController
+class EntreeController extends AbstractController
 {
     /**
-     * @Route("/sortie", name="app_sortie_index")
+     * @Route("/entree", name="app_entree_index")
      */
     public function index()
     {
-        return $this->render('sortie/index.html.twig');
+        return $this->render('entree/index.html.twig');
     }
 }
