@@ -30,11 +30,12 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
-
+            access_denied_handler: App\Security\AccessDeniedHandler
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/Produit/list$, roles: ROLE_GESTION_STOCK }
-        - { path: ^/Entree/list$, roles: ROLE_GESTION_STOCK }
-        - { path: ^/Sortie/list$, roles: ROLE_VENDEUR }
+        - { path: ^/accueil$, roles: ROLE_USER }
+        - { path: ^/produit$, roles: ROLE_GESTION_STOCK }
+        - { path: ^/entree$, roles: ROLE_GESTION_STOCK }
+        - { path: ^/sortie$, roles: ROLE_VENDEUR }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
