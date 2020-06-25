@@ -39,6 +39,11 @@ class Produit
      */
     private $sortie;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="produits")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->entree = new ArrayCollection();
@@ -140,5 +145,17 @@ class Produit
     {
         // TODO: Implement __toString() method.
         return $this->libelle;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

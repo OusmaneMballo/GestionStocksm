@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -24,15 +26,38 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
-    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="users")
+     */
+    private $roles;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="user")
+     */
+    private $produits;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Entree::class, mappedBy="user")
+     */
+    private $entrees;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="user")
+     */
+    private $sorties;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+        $this->produits = new ArrayCollection();
+        $this->entrees = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,5 +135,116 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->roles->contains($role)) {
+            $this->roles->removeElement($role);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Produit[]
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): self
+    {
+        if ($this->produits->contains($produit)) {
+            $this->produits->removeElement($produit);
+            // set the owning side to null (unless already changed)
+            if ($produit->getUser() === $this) {
+                $produit->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Entree[]
+     */
+    public function getEntrees(): Collection
+    {
+        return $this->entrees;
+    }
+
+    public function addEntree(Entree $entree): self
+    {
+        if (!$this->entrees->contains($entree)) {
+            $this->entrees[] = $entree;
+            $entree->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEntree(Entree $entree): self
+    {
+        if ($this->entrees->contains($entree)) {
+            $this->entrees->removeElement($entree);
+            // set the owning side to null (unless already changed)
+            if ($entree->getUser() === $this) {
+                $entree->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sortie $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+            $sorty->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sortie $sorty): self
+    {
+        if ($this->sorties->contains($sorty)) {
+            $this->sorties->removeElement($sorty);
+            // set the owning side to null (unless already changed)
+            if ($sorty->getUser() === $this) {
+                $sorty->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
