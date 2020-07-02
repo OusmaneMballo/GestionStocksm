@@ -63,9 +63,13 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Menu</h6>
-                    <a class="collapse-item" href={{ path('app_produit_index') }}>Gestion des Produits</a>
-                    <a class="collapse-item" href={{ path('app_entree_index') }}>Gestion des Entrer</a>
-                    <a class="collapse-item" href={{ path('app_sortie_index') }}>Gestion des Sorties</a>
+                    {% if is_granted('ROLE_GESTION_STOCK') %}
+                        <a class="collapse-item" href={{ path('app_produit_index') }}>Gestion des Produits</a>
+                        <a class="collapse-item" href={{ path('app_entree_index') }}>Gestion des Entrer</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_VENDEUR') %}
+                        <a class="collapse-item" href={{ path('app_sortie_index') }}>Gestion des Sorties</a>
+                    {% endif %}
                 </div>
             </div>
         </li>
@@ -121,7 +125,7 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.prenom }} {{ app.user.nom }}</span>
                             <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                         </a>
                         <!-- Dropdown - User Information -->
@@ -177,15 +181,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Voulez-vous vraiment se deconnecter?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-body">Une fois se deconnecter, votre session sera fermee.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
             </div>
         </div>
     </div>
